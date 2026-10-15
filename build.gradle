@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
+}
+
+group = 'org.hybrid'
+version = '26.2-ALPHA'
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+    maven { url = 'https://maven.fabricmc.net/' }
+}
+
+dependencies {
+    // Bukkit / Paper / Leaf API abstraction
+    compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    
+    // ASM & Class Remapping engine
+    implementation 'org.ow2.asm:asm:9.7'
+    implementation 'org.ow2.asm:asm-commons:9.7'
+    implementation 'org.ow2.asm:asm-tree:9.7'
+
+    // Utilities
+    implementation 'org.slf4j:slf4j-api:2.0.16'
+    implementation 'org.slf4j:slf4j-simple:2.0.16'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'org.hybrid.server.HybridServerMain',
+            'Specification-Title': 'Leaf-Fabric Hybrid Core',
+            'Specification-Version': '26.2',
+            'Implementation-Version': project.version
+        )
+    }
+}
